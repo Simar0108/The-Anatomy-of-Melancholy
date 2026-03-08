@@ -1,0 +1,42 @@
+# The Anatomy of Melancholy — dependencies
+# Python 3.9+ recommended
+
+# Data & IO
+pandas>=2.0.0
+numpy>=1.24.0
+pyarrow>=14.0.0
+
+# Gutenberg / fetching (optional: use requests + BeautifulSoup or gutenberg package)
+requests>=2.28.0
+beautifulsoup4>=4.12.0
+
+# NLP & embeddings
+scikit-learn>=1.3.0
+# Word2Vec / sentence embeddings (choose one or both)
+gensim>=4.3.0
+sentence-transformers>=2.2.0
+
+# Syntax
+spacy>=3.7.0
+
+# Sentiment
+vaderSentiment>=3.3.2
+# Optional: transformers for richer sentiment
+# transformers>=4.30.0
+# torch>=2.0.0
+
+# Dimensionality reduction & viz
+umap-learn>=0.5.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Recommendation (optional: for fast similarity search)
+# faiss-cpu>=1.7.4
+
+# Jupyter (for notebooks)
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Dev / lint (optional)
+# black>=23.0.0
+# pytest>=7.0.0
