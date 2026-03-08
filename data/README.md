@@ -26,8 +26,33 @@ Download from: `https://www.gutenberg.org/files/<id>/<id>-0.txt` or use the `gut
 
 - Sentimental poetry: to be added (e.g. from Gutenberg poetry collection or a small curated list).
 
-## Reproducing
+## Reproducing (with venv)
 
-1. Run the download script/notebook (Phase 1.3).
-2. Run the chunking pipeline (Phase 1.4).
-3. Output: `processed/corpus.parquet`.
+From project root with your venv activated (`source .venv/bin/activate`):
+
+1. **Option A — download then chunk**
+   ```bash
+   python run_phase1.py
+   ```
+   This runs `src/download_gutenberg.py` then `src/chunk_books.py`.
+
+2. **Option B — you already have the .txt files**
+   - Put them in `data/raw/` with these exact names:
+     - `brothers_karamazov.txt`
+     - `myth_of_sisyphus.txt`
+     - `meditations.txt`
+     - `east_of_eden.txt`
+   - Then either:
+     ```bash
+     python run_phase1.py --skip-download
+     ```
+     or:
+     ```bash
+     python src/chunk_books.py
+     ```
+   - If your books are in another folder:
+     ```bash
+     python src/chunk_books.py --raw-dir /path/to/folder/with/txt/files
+     ```
+
+3. Output: `data/processed/corpus.parquet`.
