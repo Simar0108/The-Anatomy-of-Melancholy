@@ -29,6 +29,18 @@ BOOK_LABELS = {
     "crime_and_punishment": "moral",
     "the_stranger": "existential",
     "notes_from_underground": "existential",
+    "seneca_letters": "stoic",
+    "zarathustra": "existential",
+    "sickness_unto_death": "existential",
+    "republic": "philosophy",
+    "mans_search_for_meaning": "existential",
+    "dickinson_poems": "poetry_sentimental",
+    "whitman_poems": "poetry_sentimental",
+    "poe_poems": "poetry_existential",
+    "byron_childe_harold": "poetry_sentimental",
+    "browning_sonnets": "poetry_sentimental",
+    "keats_poems": "poetry_sentimental",
+    "leaves_of_grass": "poetry_sentimental",
 }
 
 # When no chapter headers found, split by this many words per passage

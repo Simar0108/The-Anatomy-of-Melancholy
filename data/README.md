@@ -8,7 +8,7 @@
   - `chunk_id` — chapter or passage index
   - `text` — full text of the chunk
   - `word_count` — optional
-  - `label_suffering_type` — optional (for evaluation): moral, existential, stoic, intergenerational
+  - `label_suffering_type` — optional (for evaluation): moral, existential, stoic, intergenerational, philosophy, poetry_sentimental, poetry_existential
 - **`features/`** — Produced by Phase 2 (`python run_phase2.py`):
   - `tfidf_matrix.npy`, `tfidf_vocab.json` — TF-IDF matrix (n_chunks × n_features) and vocabulary
   - `embeddings.npy`, `embeddings_meta.txt` — sentence embeddings (n_chunks × dim)
@@ -16,20 +16,13 @@
   - `sentiment.parquet` — VADER compound/pos/neg/neu per chunk
   - `corpus_features.parquet` — corpus columns + syntactic + sentiment (row index matches .npy matrices)
 
-## Primary corpus (Project Gutenberg)
+## Primary corpus (Project Gutenberg) — 21 books
 
-| Book | Gutenberg ID | Intended label |
-|------|--------------|----------------|
-| The Brothers Karamazov (Dostoevsky) | 28054 | moral |
-| The Myth of Sisyphus (Camus) | 52881 | existential |
-| Meditations (Marcus Aurelius) | 2680 | stoic |
-| East of Eden (Steinbeck) | 1327 | intergenerational |
-| The Enchiridion (Epictetus) | 871 | stoic |
-| Crime and Punishment (Dostoevsky) | 2554 | moral |
-| The Stranger (Camus) | 11954 | existential |
-| Notes from the Underground (Dostoevsky) | 22728 | existential |
+**Prose (14):** Brothers Karamazov (28054, moral), Myth of Sisyphus (52881, existential), Meditations (2680, stoic), East of Eden (1327, intergenerational), Enchiridion (871, stoic), Crime and Punishment (2554, moral), The Stranger (11954, existential), Notes from the Underground (22728, existential), Seneca Letters (47078, stoic), Zarathustra (1998, existential), Sickness Unto Death (16643, existential), Republic (730, philosophy), Man's Search for Meaning (50316, existential).
 
-Download from: `https://www.gutenberg.org/files/<id>/<id>-0.txt` or use `python run_phase1.py`.
+**Poetry (7):** Dickinson Poems (12242, poetry_sentimental), Whitman Poems (8388, poetry_sentimental), Poe Poems (2148, poetry_existential), Byron Childe Harold (2171, poetry_sentimental), Browning Sonnets (1260, poetry_sentimental), Keats Poems (18855, poetry_sentimental), Leaves of Grass (1322, poetry_sentimental).
+
+Download: `python run_phase1.py`. Full walkthrough: **`RUN.md`** in the project root.
 
 ## Candidate books for cluster-based recommendation
 
@@ -39,7 +32,7 @@ Download from: `https://www.gutenberg.org/files/<id>/<id>-0.txt` or use `python 
 
 ## Secondary corpus
 
-- Sentimental poetry: to be added (e.g. from Gutenberg poetry collection or a small curated list).
+- Additional poetry or themed collections can be added to `CORPUS` in `src/download_gutenberg.py` and `BOOK_LABELS` in `src/chunk_books.py`; then re-run Phase 1–2–3.
 
 ## Reproducing (with venv)
 
@@ -52,9 +45,7 @@ From project root with your venv activated (`source .venv/bin/activate`):
    This runs `src/download_gutenberg.py` then `src/chunk_books.py`.
 
 2. **Option B — you already have the .txt files**
-   - Put them in `data/raw/` with these exact names (at least the first four for minimal corpus):
-     - `brothers_karamazov.txt`, `myth_of_sisyphus.txt`, `meditations.txt`, `east_of_eden.txt`
-     - Optional (expanded corpus): `enchiridion.txt`, `crime_and_punishment.txt`, `the_stranger.txt`, `notes_from_underground.txt`
+   - Put them in `data/raw/` with exact names matching `book_id` in CORPUS (e.g. `brothers_karamazov.txt`, `meditations.txt`, `dickinson_poems.txt`, …). See `src/download_gutenberg.py` for the full list of 21 `book_id` values.
    - Then either:
      ```bash
      python run_phase1.py --skip-download

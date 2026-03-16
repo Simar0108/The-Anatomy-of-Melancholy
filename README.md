@@ -10,8 +10,7 @@ CS252A Final Project: a **taxonomy of suffering** in classical and philosophical
 
 ## Dataset
 
-- **Primary (8 books):** Brothers Karamazov, Myth of Sisyphus, Meditations, East of Eden, Enchiridion (Epictetus), Crime and Punishment, The Stranger, Notes from the Underground (Project Gutenberg). See `data/README.md` for IDs and labels.
-- **Secondary:** Sentimental poetry for cross-genre recommendation tests.
+- **Primary (21 books):** 14 prose (philosophy & novels) + 7 sentimental/existential poetry (Dickinson, Whitman, Poe, Byron, Browning, Keats, Leaves of Grass). See `data/README.md` for Gutenberg IDs and labels. Built for robust, diverse clusters and recommendation.
 - **Features:** TF-IDF, sentence embeddings (all-MiniLM-L6-v2), syntactic metrics, sentiment.
 
 ## Tasks (summary)
@@ -34,6 +33,10 @@ Download spaCy model (for syntactic features):
 ```bash
 python -m spacy download en_core_web_sm
 ```
+
+## How to run everything
+
+See **[RUN.md](RUN.md)** for a full walkthrough: prerequisites, Step 1 (build 21-book corpus) through Step 7 (chunk and cluster-based recommendation), and a quick-reference table.
 
 ## Project plan
 
@@ -60,12 +63,14 @@ Optional: `python run_pipeline.py --through 4` (run only phases 1–4); `python 
 
 ```
 ├── README.md
+├── RUN.md          # full walkthrough: how to run everything (21-book corpus → recommendation)
 ├── PLAN.md
 ├── requirements.txt
 ├── report.md       # final report (hypotheses, methods, results, limitations)
 ├── run_pipeline.py # run Phases 1–7 in order
-├── recommend.py    # CLI: recommend chunks by quote
-├── data/           # raw, processed, features (see data/README.md)
+├── recommend.py      # CLI: recommend chunks by quote
+├── recommend_books.py # CLI: recommend whole books per cluster (from data/candidates_gutenberg.csv)
+├── data/             # raw, processed, features, candidates_gutenberg.csv (see data/README.md)
 ├── src/            # download, chunk, features, clustering, viz, analysis, recommendation
 ├── notebooks/      # 01–06 for pipeline and analysis
 └── results/        # tables, figures, notes

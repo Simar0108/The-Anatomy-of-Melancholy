@@ -15,17 +15,30 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = PROJECT_ROOT / "data" / "raw"
 
 # Primary corpus: book_id, Gutenberg ID, optional label for later
-# Expanded for better representation across suffering types / philosophy.
+# 20+ books for robust, diverse clusters and recommendation (prose + sentimental/existential poetry).
 CORPUS = [
+    # --- Prose: philosophy & novels ---
     ("brothers_karamazov", 28054, "moral"),
     ("myth_of_sisyphus", 52881, "existential"),
     ("meditations", 2680, "stoic"),
     ("east_of_eden", 1327, "intergenerational"),
-    # Additional books for larger representation
-    ("enchiridion", 871, "stoic"),           # Epictetus
-    ("crime_and_punishment", 2554, "moral"), # Dostoevsky
-    ("the_stranger", 11954, "existential"),  # Camus
-    ("notes_from_underground", 22728, "existential"),  # Dostoevsky
+    ("enchiridion", 871, "stoic"),
+    ("crime_and_punishment", 2554, "moral"),
+    ("the_stranger", 11954, "existential"),
+    ("notes_from_underground", 22728, "existential"),
+    ("seneca_letters", 47078, "stoic"),              # Letters to Lucilius
+    ("zarathustra", 1998, "existential"),            # Thus Spoke Zarathustra
+    ("sickness_unto_death", 16643, "existential"),   # Kierkegaard
+    ("republic", 730, "philosophy"),                 # Plato
+    ("mans_search_for_meaning", 50316, "existential"),  # Viktor Frankl
+    # --- Poetry: sentimental / existential popular poetry ---
+    ("dickinson_poems", 12242, "poetry_sentimental"),   # Emily Dickinson, Three Series Complete
+    ("whitman_poems", 8388, "poetry_sentimental"),     # Walt Whitman
+    ("poe_poems", 2148, "poetry_existential"),         # Poe, The Raven and Other Poems
+    ("byron_childe_harold", 2171, "poetry_sentimental"),  # Byron
+    ("browning_sonnets", 1260, "poetry_sentimental"),  # Sonnets from the Portuguese
+    ("keats_poems", 18855, "poetry_sentimental"),       # Keats, Endymion
+    ("leaves_of_grass", 1322, "poetry_sentimental"),   # Whitman, Leaves of Grass
 ]
 
 # Be nice to Gutenberg: identify the app, avoid hammering
