@@ -1,0 +1,5 @@
+book_id,volatility,mean_sentiment,n_chunks,label_suffering_type
+brothers_karamazov,0.8666921021908529,0.4848,5,moral
+myth_of_sisyphus,0.504415102097191,0.8315037735849056,106,existential
+meditations,0.7514904519533356,0.6132522222222222,90,stoic
+east_of_eden,0.5184651088797423,0.8339409836065574,61,intergenerational

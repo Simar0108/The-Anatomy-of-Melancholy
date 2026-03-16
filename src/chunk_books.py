@@ -19,11 +19,16 @@ DEFAULT_RAW_DIR = PROJECT_ROOT / "data" / "raw"
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 
 # book_id -> label_suffering_type (for evaluation)
+# Must match .txt filenames in raw dir and CORPUS in download_gutenberg.py
 BOOK_LABELS = {
     "brothers_karamazov": "moral",
     "myth_of_sisyphus": "existential",
     "meditations": "stoic",
     "east_of_eden": "intergenerational",
+    "enchiridion": "stoic",
+    "crime_and_punishment": "moral",
+    "the_stranger": "existential",
+    "notes_from_underground": "existential",
 }
 
 # When no chapter headers found, split by this many words per passage

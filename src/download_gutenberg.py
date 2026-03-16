@@ -15,11 +15,17 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = PROJECT_ROOT / "data" / "raw"
 
 # Primary corpus: book_id, Gutenberg ID, optional label for later
+# Expanded for better representation across suffering types / philosophy.
 CORPUS = [
     ("brothers_karamazov", 28054, "moral"),
     ("myth_of_sisyphus", 52881, "existential"),
     ("meditations", 2680, "stoic"),
     ("east_of_eden", 1327, "intergenerational"),
+    # Additional books for larger representation
+    ("enchiridion", 871, "stoic"),           # Epictetus
+    ("crime_and_punishment", 2554, "moral"), # Dostoevsky
+    ("the_stranger", 11954, "existential"),  # Camus
+    ("notes_from_underground", 22728, "existential"),  # Dostoevsky
 ]
 
 # Be nice to Gutenberg: identify the app, avoid hammering
