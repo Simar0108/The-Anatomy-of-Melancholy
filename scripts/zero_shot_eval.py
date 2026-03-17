@@ -12,7 +12,11 @@ from __future__ import annotations
 
 import json
 import sys
+import warnings
 from pathlib import Path
+
+# Suppress leaked-semaphore warning from loky/joblib at shutdown (Python 3.13 + HF)
+warnings.filterwarnings("ignore", message=".*resource_tracker.*leaked semaphore.*", category=UserWarning)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))

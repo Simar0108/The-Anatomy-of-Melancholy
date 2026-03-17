@@ -15,6 +15,7 @@
   - `syntactic.parquet` — mean_sent_len, std_sent_len, punc_density per chunk
   - `sentiment.parquet` — VADER compound/pos/neg/neu per chunk
   - `corpus_features.parquet` — corpus columns + syntactic + sentiment (row index matches .npy matrices)
+- **`relevance_set.csv`** — For recommendation P@k evaluation: columns `query_id`, `query_text`, `relevant_chunk_indices` (comma-separated **corpus row indices** 0..N-1). If you use placeholders (e.g. 1, 2, 3), P@k will be 0. To get a sanity-check non-zero P@k, run once: `python scripts/populate_relevance_from_model.py` (overwrites with the model’s top-5 per query). For real evaluation, replace `relevant_chunk_indices` with human-judged corpus row indices.
 
 ## Primary corpus (Project Gutenberg) — 21 books
 

@@ -22,76 +22,88 @@ def main() -> None:
     p = argparse.ArgumentParser(description="Statistical test for hypothesis (e.g. stoic vs existential)")
     p.add_argument("--results-dir", type=Path, default=PROJECT_ROOT / "results")
     p.add_argument("--metric", type=str, choices=["mean_sent_len", "volatility"], default="mean_sent_len")
+    p.add_argument("--all-metrics", action="store_true", help="Run both mean_sent_len and volatility, write combined file")
     p.add_argument("--groups", type=str, nargs="+", default=["stoic", "existential"])
     args = p.parse_args()
 
     import pandas as pd
     import numpy as np
 
-    # Load per-book metrics
-    if args.metric == "volatility":
-        path = args.results_dir / "volatility_by_book.csv"
-        col = "volatility"
-    else:
-        path = args.results_dir / "syntactic_by_book.csv"
-        col = "mean_sent_len"
-    if not path.exists():
-        print(f"Missing {path}. Run Phase 5 (volatility) or Phase 6 (syntactic) first.")
-        sys.exit(1)
+    metrics_to_run = ["mean_sent_len", "volatility"] if args.all_metrics else [args.metric]
+    lines_out = []
 
-    df = pd.read_csv(path)
-    if "label_suffering_type" not in df.columns or col not in df.columns:
-        print(f"Expected columns label_suffering_type and {col}")
-        sys.exit(1)
+    for metric in metrics_to_run:
+        if metric == "volatility":
+            path = args.results_dir / "volatility_by_book.csv"
+            col = "volatility"
+        else:
+            path = args.results_dir / "syntactic_by_book.csv"
+            col = "mean_sent_len"
+        if not path.exists():
+            print(f"Missing {path}. Run Phase 5 (volatility) or Phase 6 (syntactic) first.")
+            sys.exit(1)
 
-    groups = args.groups
-    vals = {}
-    for g in groups:
-        subset = df[df["label_suffering_type"] == g]
-        if len(subset) == 0:
-            print(f"No rows for label '{g}'")
-            continue
-        vals[g] = subset[col].dropna().values
-    if len(vals) < 2:
-        print("Need at least two groups with data.")
-        sys.exit(1)
+        df = pd.read_csv(path)
+        if "label_suffering_type" not in df.columns or col not in df.columns:
+            print(f"Expected columns label_suffering_type and {col}")
+            sys.exit(1)
 
-    a, b = vals[groups[0]], vals[groups[1]]
-    try:
-        from scipy import stats
-        stat, p_value = stats.ttest_ind(a, b)
-    except ImportError:
-        # Permutation test (no scipy)
-        def permute_diff(a, b, n_perm=5000):
-            combined = np.concatenate([a, b])
-            n_a, diff_obs = len(a), np.mean(a) - np.mean(b)
-            count = 0
-            for _ in range(n_perm):
-                np.random.shuffle(combined)
-                diff = np.mean(combined[:n_a]) - np.mean(combined[n_a:])
-                if abs(diff) >= abs(diff_obs):
-                    count += 1
-            return diff_obs, count / n_perm
-        stat, p_value = permute_diff(a, b)
-        stat = float(stat)
-        p_value = float(p_value)
+        groups = args.groups
+        vals = {}
+        for g in groups:
+            subset = df[df["label_suffering_type"] == g]
+            if len(subset) == 0:
+                print(f"No rows for label '{g}'")
+                continue
+            vals[g] = subset[col].dropna().values
+        if len(vals) < 2:
+            print("Need at least two groups with data.")
+            sys.exit(1)
 
-    mean_a, mean_b = float(np.mean(a)), float(np.mean(b))
-    line1 = f"Metric: {col}"
-    line2 = f"  {groups[0]}: n={len(a)}, mean={mean_a:.4f}"
-    line3 = f"  {groups[1]}: n={len(b)}, mean={mean_b:.4f}"
-    line4 = f"  p-value (t-test): {p_value:.4f}"
-    line5 = f"  Significant at alpha=0.05: {'Yes' if p_value < 0.05 else 'No'}"
-    print(line1)
-    print(line2)
-    print(line3)
-    print(line4)
-    print(line5)
+        a, b = vals[groups[0]], vals[groups[1]]
+        try:
+            from scipy import stats
+            stat, p_value = stats.ttest_ind(a, b)
+        except ImportError:
+            def permute_diff(a, b, n_perm=5000):
+                combined = np.concatenate([a, b])
+                n_a, diff_obs = len(a), np.mean(a) - np.mean(b)
+                count = 0
+                for _ in range(n_perm):
+                    np.random.shuffle(combined)
+                    diff = np.mean(combined[:n_a]) - np.mean(combined[n_a:])
+                    if abs(diff) >= abs(diff_obs):
+                        count += 1
+                return diff_obs, count / n_perm
+            stat, p_value = permute_diff(a, b)
+            stat = float(stat)
+            p_value = float(p_value)
+
+        mean_a, mean_b = float(np.mean(a)), float(np.mean(b))
+        line1 = f"Metric: {col}"
+        line2 = f"  {groups[0]}: n={len(a)}, mean={mean_a:.4f}"
+        line3 = f"  {groups[1]}: n={len(b)}, mean={mean_b:.4f}"
+        line4 = f"  p-value (t-test): {p_value:.4f}"
+        line5 = f"  Significant at alpha=0.05: {'Yes' if p_value < 0.05 else 'No'}"
+        print(line1)
+        print(line2)
+        print(line3)
+        print(line4)
+        print(line5)
+        lines_out.extend([line1, line2, line3, line4, line5, ""])
+
+    # Note on sample size and power
+    power_note = (
+        "Note: With small group sizes (e.g. n=3 stoic, n=6 existential), "
+        "statistical power is limited; non-significance is common even when differences exist."
+    )
+    lines_out.append(power_note)
+    print(power_note)
 
     args.results_dir.mkdir(parents=True, exist_ok=True)
     out_path = args.results_dir / "stats_hypothesis.txt"
     with open(out_path, "w", encoding="utf-8") as f:
-        f.write("\n".join([line1, line2, line3, line4, line5]))
+        f.write("\n".join(lines_out))
     print(f"Wrote {out_path}")
 
 
