@@ -8,7 +8,7 @@ CS252A Final Project: a **taxonomy of suffering** in classical and philosophical
 - **Chunk-level H3 (sentence length) is significant:** existential chunks have longer mean sentence length than stoic (p = 0.0002). Lexical anchors (H2) are interpretable and drive PCA separation.
 - **Recommendation:** Recall@book = 1.0 (expected book appears in top-5 for every query); P@5 from expected book is modest. Optional reranker ablation, interpretability notes, topic model (NMF), and sentiment arc by label are in **KEY_RESULTS.md** and `results/`.
 
-→ **One-page summary:** [KEY_RESULTS.md](KEY_RESULTS.md). Full report: [report.md](report.md).
+→ **One-page summary:** [KEY_RESULTS.md](KEY_RESULTS.md). **Findings, interpretation & architecture:** [FINDINGS_AND_ARCHITECTURE.md](FINDINGS_AND_ARCHITECTURE.md). Full report: [report.md](report.md).
 
 ## Hypotheses
 
