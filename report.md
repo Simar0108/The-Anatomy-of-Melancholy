@@ -96,8 +96,10 @@ Work on **literary NLP** and **sentiment in narrative** has used both lexicon-ba
 ### 5.6 Evaluation
 
 - **Qualitative:** Top-5 books per cluster (`python recommend_books.py`) align with cluster descriptions.
-- **Quantitative:** `data/relevance_set.csv` + `python scripts/eval_recommendation.py` → P@k in `results/eval_recommendation.json`.
-- **Statistical test:** `python scripts/stats_hypothesis.py` → `results/stats_hypothesis.txt` (p-value for stoic vs. existential).
+- **Quantitative (relevance set):** `data/relevance_set.csv` + `python scripts/eval_recommendation.py` → P@k in `results/eval_recommendation.json`. For a **meaningful automatic metric without human labels**, use **eval by expected book**: `data/eval_queries_by_book.csv` (query → expected_book_id) + `python scripts/eval_recommendation_by_book.py` → P@5 from expected book and Recall@book in `results/eval_recommendation_by_book.json`.
+- **Statistical tests:**  
+  - **Book-level** (low power): `python scripts/stats_hypothesis.py --all-metrics` → `results/stats_hypothesis.txt`.  
+  - **Chunk-level** (high N, more power): `python scripts/stats_chunk_level.py` → `results/stats_chunk_level.txt` (stoic vs existential on mean_sent_len and optional sentiment_compound).
 
 ### 5.7 Cluster-label agreement and zero-shot check
 
@@ -110,6 +112,16 @@ Work on **literary NLP** and **sentiment in narrative** has used both lexicon-ba
 |-------|------------------|-------|
 | all-MiniLM-L6-v2 | ~0.058 | Baseline. |
 | all-mpnet-base-v2 | Run Phase 2 with `--embedding-model all-mpnet-base-v2` then Phase 3 | Stronger. |
+
+---
+
+## 5.9 Revised framing for stronger results
+
+To get **clearer, more reportable results**, the pipeline was reworked as follows (see **`REWORK.md`** for full detail):
+
+1. **Chunk-level hypothesis tests** — Comparing stoic vs existential **chunks** (not books) on mean sentence length (and optional sentiment) yields much larger N and statistical power; report the p-value from `results/stats_chunk_level.txt`.
+2. **Recommendation eval by expected book** — For each query we define one “expected” book (e.g. Myth of Sisyphus for “meaninglessness”). **P@5 from expected book** and **Recall@book** (fraction of queries with ≥1 hit from that book in top-5) are interpretable metrics that require no human relevance labels.
+3. **Narrative reframe** — Lead with the finding that the taxonomy we recover is **style and register** (archaic vs narrative, aphoristic vs expansive), not suffering type. That negative result is informative; H2 (anchors) and chunk-level H3 (if significant) are positive results; recommendation is evaluated by expected-book metrics and qualitative examples.
 
 ---
 

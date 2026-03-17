@@ -112,10 +112,20 @@ def main() -> None:
         print("\n" + "=" * 60 + "\nEval: recommendation P@k\n" + "=" * 60)
         run([sys.executable, "scripts/eval_recommendation.py"], strict=False)
 
-    # Stats
+    # Eval by expected book (no human labels)
+    if (PROJECT_ROOT / "data" / "eval_queries_by_book.csv").exists() and EMBEDDINGS.exists():
+        print("\n" + "=" * 60 + "\nEval: P@5 from expected book\n" + "=" * 60)
+        run([sys.executable, "scripts/eval_recommendation_by_book.py"], strict=False)
+
+    # Stats (book-level)
     if (RESULTS / "volatility_by_book.csv").exists() or (RESULTS / "syntactic_by_book.csv").exists():
         print("\n" + "=" * 60 + "\nStats: hypothesis test (stoic vs existential)\n" + "=" * 60)
         run([sys.executable, "scripts/stats_hypothesis.py", "--all-metrics"], strict=False)
+
+    # Stats (chunk-level: high N, more power)
+    if (FEATURES / "corpus_features.parquet").exists():
+        print("\n" + "=" * 60 + "\nStats: chunk-level (stoic vs existential)\n" + "=" * 60)
+        run([sys.executable, "scripts/stats_chunk_level.py"], strict=False)
 
     # Cluster-label agreement (NMI/ARI)
     if (RESULTS / "labels_kmeans.csv").exists() and (FEATURES / "corpus_features.parquet").exists():

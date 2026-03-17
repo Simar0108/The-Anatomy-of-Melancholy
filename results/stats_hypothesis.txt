@@ -3,3 +3,11 @@ Metric: mean_sent_len
   existential: n=6, mean=30.0359
   p-value (t-test): 0.3001
   Significant at alpha=0.05: No
+
+Metric: volatility
+  stoic: n=3, mean=0.5300
+  existential: n=6, mean=0.5363
+  p-value (t-test): 0.9760
+  Significant at alpha=0.05: No
+
+Note: With small group sizes (e.g. n=3 stoic, n=6 existential), statistical power is limited; non-significance is common even when differences exist.

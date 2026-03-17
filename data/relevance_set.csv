@@ -1,4 +1,4 @@
 query_id,query_text,relevant_chunk_indices
-1,"I am tormented by the idea of meaninglessness",1
-2,"Accept what is in your control and let go of the rest",2
-3,"We must imagine Sisyphus happy",3
+1,I am tormented by the idea of meaninglessness,"85,764,581,1344,737"
+2,Accept what is in your control and let go of the rest,"288,153,205,139,71"
+3,We must imagine Sisyphus happy,"117,581,1132,568,39"
