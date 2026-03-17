@@ -72,6 +72,8 @@ def main() -> None:
     r_at_k = sum(recalls) / len(recalls) if recalls else 0.0
     n = len(precisions)
     print(f"Queries: {n}, P@{k}: {p_at_k:.4f}, R@{k}: {r_at_k:.4f}")
+    if p_at_k == 0 and n > 0:
+        print("(P@k=0 is expected if relevance_set.csv has placeholder relevant_chunk_indices; add real corpus row indices for true eval.)")
 
     args.results_dir.mkdir(parents=True, exist_ok=True)
     out = {"n_queries": n, f"P@{k}": p_at_k, f"R@{k}": r_at_k, "k": k}

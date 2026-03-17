@@ -1,0 +1,5 @@
+Metric: mean_sent_len
+  stoic: n=3, mean=23.8089
+  existential: n=6, mean=30.0359
+  p-value (t-test): 0.3001
+  Significant at alpha=0.05: No

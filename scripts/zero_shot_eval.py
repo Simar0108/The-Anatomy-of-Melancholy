@@ -36,7 +36,8 @@ LABEL_TO_KEY = {
     "poetry_sentimental": "poetry and lyric",
     "poetry_existential": "poetry and lyric",
 }
-DEFAULT_MODEL = "MoritzLaurer/deberta-v3-base-zeroshot-v2"
+# Widely available zero-shot NLI model (no auth required)
+DEFAULT_MODEL = "facebook/bart-large-mnli"
 MAX_CHUNK_CHARS = 400  # truncate so we don't exceed model max length
 
 

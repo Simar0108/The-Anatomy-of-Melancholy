@@ -46,8 +46,11 @@ def recommend(
             from src.recommendation.faiss_index import load_index as load_faiss, search as faiss_search
             index = load_faiss(features_dir)
             scores_arr, top_idx = faiss_search(index, q, retrieve_k)
-            scores = np.array(scores_arr, dtype=np.float64)
-            top_idx = top_idx.astype(np.int64)
+            # FAISS IndexFlatIP returns ascending order (smallest inner product first); we want best first
+            order = np.argsort(scores_arr)[::-1]
+            scores_arr = np.array(scores_arr, dtype=np.float64)[order]
+            top_idx = top_idx.astype(np.int64)[order]
+            scores = scores_arr
         except Exception:
             use_faiss_idx = False
     if not use_faiss_idx:

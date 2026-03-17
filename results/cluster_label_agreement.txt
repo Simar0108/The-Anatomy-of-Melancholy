@@ -1,0 +1,2 @@
+NMI(cluster, book_label) = 0.2646
+ARI(cluster, book_label) = 0.1422

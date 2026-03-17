@@ -4,7 +4,7 @@ Phase 3 pipeline: suffering taxonomy — K-Means + hierarchical clustering,
 cluster descriptions (top TF-IDF terms), and cross-tabs (cluster vs book / label).
 
 Run from project root with venv activated:
-  source .venv/bin/activate   # or: venv\Scripts\activate on Windows
+  source .venv/bin/activate   # or: venv\\Scripts\\activate on Windows
   python run_phase3.py
 
 Requires: data/features/ from Phase 2 (embeddings.npy, tfidf_matrix.npy, tfidf_vocab.json,
