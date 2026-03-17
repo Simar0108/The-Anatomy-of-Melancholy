@@ -2,6 +2,14 @@
 
 CS252A Final Project: a **taxonomy of suffering** in classical and philosophical literature—beyond sentiment, toward existential, moral, and stoic texture.
 
+## Key results
+
+- **We don’t recover a “suffering type” taxonomy** — clusters and PCA separate by **style and register** (archaic vs. narrative, author identity), not by stoic/existential/moral labels. NMI/ARI with book labels are low; that negative result is informative.
+- **Chunk-level H3 (sentence length) is significant:** existential chunks have longer mean sentence length than stoic (p = 0.0002). Lexical anchors (H2) are interpretable and drive PCA separation.
+- **Recommendation:** Recall@book = 1.0 (expected book appears in top-5 for every query); P@5 from expected book is modest. Optional reranker ablation, interpretability notes, topic model (NMF), and sentiment arc by label are in **KEY_RESULTS.md** and `results/`.
+
+→ **One-page summary:** [KEY_RESULTS.md](KEY_RESULTS.md). Full report: [report.md](report.md).
+
 ## Hypotheses
 
 1. **Semantic divergence** — Stoic texts show lower “emotional volatility” than existential texts in embedding space.
@@ -69,19 +77,21 @@ Optional: `python run_pipeline.py --through 4` (run only phases 1–4); `python 
 
 ```
 ├── README.md
+├── KEY_RESULTS.md  # one-page summary of key results (for sharing)
 ├── RUN.md          # step-by-step walkthrough
-├── run_all.py      # single command: python run_all.py (full pipeline + FAISS + eval + stats)
-├── TECHNICAL_BREAKDOWN.md  # what we do, why, how, novelty, ways to add more
+├── run_all.py      # full pipeline + FAISS + eval + stats + ablation + explain + topic model + arc
+├── TECHNICAL_BREAKDOWN.md
 ├── PLAN.md
 ├── requirements.txt
 ├── report.md       # final report (hypotheses, methods, results, limitations)
 ├── run_pipeline.py # run Phases 1–7 in order
-├── recommend.py      # CLI: recommend chunks by quote
-├── recommend_books.py # CLI: recommend whole books per cluster (from data/candidates_gutenberg.csv)
-├── data/             # raw, processed, features, candidates_gutenberg.csv (see data/README.md)
-├── src/            # download, chunk, features, clustering, viz, analysis, recommendation
-├── notebooks/      # 01–06 for pipeline and analysis
-└── results/        # tables, figures, notes
+├── recommend.py    # CLI: recommend chunks by quote (optional --rerank)
+├── recommend_books.py
+├── data/           # raw, processed, features, eval_queries_by_book.csv, relevance_set.csv
+├── scripts/        # eval_reranker_ablation, explain_recommendation, topic_model_compare, sentiment_arc_by_label, ...
+├── src/
+├── notebooks/
+└── results/        # tables, figures, eval_reranker_ablation, explain_recommendation.md, topic_*, arc_*, ...
 ```
 
 ## License

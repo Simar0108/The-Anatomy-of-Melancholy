@@ -1,0 +1,13 @@
+Chunk-level hypothesis tests (high N → more power)
+
+Metric: mean_sent_len (per chunk)
+  stoic: n=135, mean=25.4075
+  existential: n=695, mean=29.2020
+  p-value (t-test): 0.0002
+  Significant at alpha=0.05: Yes
+
+Metric: sentiment_compound (per chunk)
+  stoic: n=135, mean=0.6826
+  existential: n=695, mean=0.6620
+  p-value (t-test): 0.7528
+  Significant at alpha=0.05: No

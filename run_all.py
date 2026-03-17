@@ -137,6 +137,26 @@ def main() -> None:
         print("\n" + "=" * 60 + "\nZero-shot classification vs book label & clusters\n" + "=" * 60)
         run([sys.executable, "scripts/zero_shot_eval.py", "--max-chunks", "400"], strict=False)
 
+    # Reranker ablation (B)
+    if (PROJECT_ROOT / "data" / "eval_queries_by_book.csv").exists() and EMBEDDINGS.exists():
+        print("\n" + "=" * 60 + "\nEval: reranker ablation (bi-encoder vs + rerank)\n" + "=" * 60)
+        run([sys.executable, "scripts/eval_reranker_ablation.py"], strict=False)
+
+    # Interpretability: why we recommended this (C)
+    if (RESULTS / "labels_kmeans.csv").exists() and (RESULTS / "cluster_descriptions.csv").exists() and EMBEDDINGS.exists():
+        print("\n" + "=" * 60 + "\nExplain recommendation (overlap + cluster)\n" + "=" * 60)
+        run([sys.executable, "scripts/explain_recommendation.py"], strict=False)
+
+    # Topic model NMF vs K-means (D)
+    if (FEATURES / "tfidf_matrix.npy").exists():
+        print("\n" + "=" * 60 + "\nTopic model (NMF) vs K-means\n" + "=" * 60)
+        run([sys.executable, "scripts/topic_model_compare.py"], strict=False)
+
+    # Sentiment arc by label (E)
+    if (FEATURES / "corpus_features.parquet").exists():
+        print("\n" + "=" * 60 + "\nSentiment arc by label\n" + "=" * 60)
+        run([sys.executable, "scripts/sentiment_arc_by_label.py"], strict=False)
+
     print("\n" + "=" * 60 + "\nAll steps complete.\n" + "=" * 60)
 
 

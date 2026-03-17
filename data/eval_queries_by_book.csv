@@ -2,3 +2,6 @@ query_id,query_text,expected_book_id
 1,"I am tormented by the idea of meaninglessness",myth_of_sisyphus
 2,"Accept what is in your control and let go of the rest",enchiridion
 3,"We must imagine Sisyphus happy",myth_of_sisyphus
+4,"We are punished for our sins",brothers_karamazov
+5,"The weight of family and the land",east_of_eden
+6,"I dwell in possibility",dickinson_poems

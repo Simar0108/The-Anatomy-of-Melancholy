@@ -1,0 +1,6 @@
+{
+  "n_queries": 3,
+  "P@5_from_expected_book": 0.20000000000000004,
+  "Recall_at_least_one_from_expected_book": 1.0,
+  "k": 5
+}
