@@ -1,5 +1,13 @@
 # How to run the full pipeline
 
+**Single command (run everything in order):**
+```bash
+python run_all.py
+```
+Runs Phase 1 (if corpus missing) → Phase 2 (if features missing) → Phases 3–7 → FAISS build → eval P@k → stats. Use `--through 4` or `--skip-post` to limit. See **TECHNICAL_BREAKDOWN.md** for what we do, why, and novelty.
+
+---
+
 This guide walks you through building a **robust, diverse** corpus (20+ books including sentimental/existential poetry), then running the full pipeline to get clusters and both recommendation systems.
 
 ---
@@ -162,13 +170,18 @@ python run_pipeline.py
 | Step | Command | Produces |
 |------|---------|----------|
 | 1 | `python run_phase1.py` | `data/raw/*.txt`, `data/processed/corpus.parquet` |
-| 2 | `python run_phase2.py` | `data/features/*` (embeddings, TF-IDF, syntactic, sentiment) |
+| 2 | `python run_phase2.py` [optional: `--embedding-model all-mpnet-base-v2` `--sentiment transformer`] | `data/features/*` (embeddings, TF-IDF, syntactic, sentiment) |
 | 3 | `python run_phase3.py` | `results/labels_kmeans.csv`, cluster descriptions, cross-tabs |
 | 4 | `python run_phase4.py` | PCA, UMAP, anchor words, scatter plots |
 | 5 | `python run_phase5.py` | Sentiment trajectory, volatility_by_book |
 | 6 | `python run_phase6.py` | Syntactic by book |
-| 7a | `python recommend.py "quote"` | Top-k similar **chunks** |
+| 7a | `python recommend.py "quote"` [optional: `--rerank`] | Top-k similar **chunks** (optional cross-encoder re-rank) |
 | 7b | `python recommend_books.py` | Top **books** per cluster (from candidates) |
+| — | `python scripts/build_faiss_index.py` (after Phase 2) | FAISS index for faster retrieval |
+| — | `python scripts/eval_recommendation.py` | P@k from `data/relevance_set.csv` → `results/eval_recommendation.json` |
+| — | `python scripts/stats_hypothesis.py` (after Phase 5/6) | t-test stoic vs. existential → `results/stats_hypothesis.txt` |
+| — | `python scripts/cluster_label_agreement.py` (after Phase 3) | NMI/ARI cluster vs book label → `results/cluster_label_agreement.json` |
+| — | `python scripts/zero_shot_eval.py` (after Phase 2) | Zero-shot classification vs book label & clusters → `results/zero_shot_metrics.json` |
 
 **Data flow:** Phase 1 → Phase 2 → Phase 3. Phases 4–6 can run after 3. Recommendation (7a and 7b) uses outputs of Phase 2 and (for 7b) Phase 3.
 

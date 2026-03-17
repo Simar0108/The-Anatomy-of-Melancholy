@@ -24,6 +24,7 @@ def main() -> None:
     p.add_argument("query", type=str, nargs="?", default=None,
                    help="Quote or reflection to find similar passages for")
     p.add_argument("-k", type=int, default=5, help="Number of chunks to return (default: 5)")
+    p.add_argument("--rerank", action="store_true", help="Re-rank top-20 with cross-encoder for better precision")
     p.add_argument("--features-dir", type=Path, default=None,
                    help="Path to data/features (default: project data/features)")
     args = p.parse_args()
@@ -39,7 +40,7 @@ def main() -> None:
         sys.exit(1)
 
     from src.recommendation.query import recommend
-    results = recommend(args.query, k=args.k, features_dir=features_dir)
+    results = recommend(args.query, k=args.k, features_dir=features_dir, rerank=args.rerank)
 
     print(f"Top {len(results)} chunks for: \"{args.query[:60]}{'...' if len(args.query) > 60 else ''}\"\n")
     for i, row in results.iterrows():

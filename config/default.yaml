@@ -1,0 +1,5 @@
+# Default config for pipeline (optional). CLI flags override.
+# Used when running: python run_phase2.py (no args) or run_pipeline.py
+
+embedding_model: "all-MiniLM-L6-v2"   # or "all-mpnet-base-v2" for stronger embeddings
+sentiment_backend: "vader"             # or "transformer" for HF sentiment model

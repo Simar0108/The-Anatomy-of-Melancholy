@@ -36,7 +36,13 @@ python -m spacy download en_core_web_sm
 
 ## How to run everything
 
-See **[RUN.md](RUN.md)** for a full walkthrough: prerequisites, Step 1 (build 21-book corpus) through Step 7 (chunk and cluster-based recommendation), and a quick-reference table.
+**Single command (full pipeline + FAISS + eval + stats):**
+```bash
+python run_all.py
+```
+Runs phases 1–7 (skipping 1–2 if corpus/features already exist), then builds the FAISS index, runs recommendation evaluation (P@k), and the hypothesis test. See **[TECHNICAL_BREAKDOWN.md](TECHNICAL_BREAKDOWN.md)** for what this does and why.
+
+**Step-by-step:** See **[RUN.md](RUN.md)** for a full walkthrough: prerequisites, Step 1 (build 21-book corpus) through Step 7, and a quick-reference table.
 
 ## Project plan
 
@@ -63,7 +69,9 @@ Optional: `python run_pipeline.py --through 4` (run only phases 1–4); `python 
 
 ```
 ├── README.md
-├── RUN.md          # full walkthrough: how to run everything (21-book corpus → recommendation)
+├── RUN.md          # step-by-step walkthrough
+├── run_all.py      # single command: python run_all.py (full pipeline + FAISS + eval + stats)
+├── TECHNICAL_BREAKDOWN.md  # what we do, why, how, novelty, ways to add more
 ├── PLAN.md
 ├── requirements.txt
 ├── report.md       # final report (hypotheses, methods, results, limitations)
